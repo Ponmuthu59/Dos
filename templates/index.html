@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attack Simulation</title>
+</head>
+<body>
+    <h1>Attack Simulation</h1>
+    <form id="attackForm">
+        <label for="target_ip">Target IP:</label>
+        <input type="text" id="target_ip" name="target_ip" required><br><br>
+
+        <label for="port">Port:</label>
+        <input type="number" id="port" name="port" required><br><br>
+
+        <label for="num_pcs">Number of PCs:</label>
+        <input type="number" id="num_pcs" name="num_pcs" required><br><br>
+
+        <label for="num_requests">Number of Requests per PC:</label>
+        <input type="number" id="num_requests" name="num_requests" required><br><br>
+
+        <button type="submit">Start Attack</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('attackForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const target_ip = document.getElementById('target_ip').value;
+            const port = document.getElementById('port').value;
+            const num_pcs = document.getElementById('num_pcs').value;
+            const num_requests = document.getElementById('num_requests').value;
+
+            const response = await fetch('/start-attack', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ target_ip, port, num_pcs, num_requests })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        });
+    </script>
+</body>
+</html>
